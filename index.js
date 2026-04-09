@@ -11,8 +11,19 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for Railway deployment
+app.use(cors({
+  origin: '*', // Allow all origins, or specify your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running!', status: 'OK' });
+});
 
 app.use("/products", productsRouter);
 
